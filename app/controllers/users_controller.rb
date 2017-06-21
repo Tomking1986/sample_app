@@ -22,6 +22,9 @@ class UsersController < ApplicationController
     end
   end
   
+  def User.new_token
+    SecureRandom.urlsafe_base64
+  end
 #   def create
 #   @user = User.new(user_params)    
 #     if @user.save
