@@ -1,5 +1,5 @@
 require 'test_helper'
-
+#class MicropostsControllerTest < ActionController::TestCase
 class StaticPagesControllerTest < ActionDispatch::IntegrationTest
 
   test "should get home" do

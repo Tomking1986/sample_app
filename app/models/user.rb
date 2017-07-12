@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+#class User < ApplicationRecord  #from book
+
+  has_many :microposts, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save :downcase_email
   before_create :create_activation_digest
@@ -11,7 +14,7 @@ class User < ActiveRecord::Base
                     validates :password, presence: true, length: { minimum: 6}, allow_nil: true 
                     
                      # Returns a random token.
-    def User.digest(string)
+  def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
@@ -63,6 +66,12 @@ end
 # Returns true if a password reset has expired.
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+   # Defines a proto-feed.
+  # See "Following users" for the full implementation.
+  def feed
+    Micropost.where("user_id = ?", id)
   end
 
   private
